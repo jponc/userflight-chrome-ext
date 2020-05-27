@@ -17,6 +17,8 @@
     "jsonwebtoken": "^8.5.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "typescript": "~3.7.2"
   },
@@ -43,6 +45,7 @@
     ]
   },
   "devDependencies": {
-    "@types/jsonwebtoken": "^8.5.0"
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/react-router-dom": "^5.1.5"
   }
 }

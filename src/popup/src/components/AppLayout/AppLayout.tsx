@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
 import Container from "@material-ui/core/Container";
 import { usePreferences } from "../../context/PreferencesContext";
+import { useUser } from "../../context/UserContext";
 
 import {
   createStyles,
@@ -92,12 +93,21 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const AppLayout: React.FC = ({ children }) => {
-  const classes = useStyles();
+type AppLayoutProps = {
+  title: string
+}
 
+export const AppLayout: React.FC<AppLayoutProps> = ({ children, title }) => {
+  const classes = useStyles();
   const { isDrawerOpen, setIsDrawerOpen } = usePreferences();
+  const { logout } = useUser();
+
   const handleDrawerOpen = () => {
     setIsDrawerOpen(true);
+  };
+
+  const logoutHandler = () => {
+    logout();
   };
 
   return (
@@ -114,7 +124,7 @@ export const AppLayout: React.FC = ({ children }) => {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            Material-UI
+            {title}
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -146,7 +156,7 @@ export const AppLayout: React.FC = ({ children }) => {
       >
         <Divider />
         <List>
-          <ListItem button onClick={() => {}}>
+          <ListItem button onClick={logoutHandler}>
             <ListItemIcon>
               <ExitToAppIcon />
             </ListItemIcon>

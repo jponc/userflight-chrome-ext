@@ -3,7 +3,7 @@ import { LoginScreen } from "./screens/LoginScreen";
 import { useUser } from "./context/UserContext";
 import { Loading } from "./components/Loading";
 import "./Main.scss";
-import { HomeScreen } from "./screens/HomeScreen";
+import { AppRouter } from "./AppRouter";
 
 export const Main = () => {
   const { token, doneCheckingAuth } = useUser();
@@ -16,7 +16,7 @@ export const Main = () => {
   return (
     <>
       <div className="s-main">
-        {isLoggedIn ? <HomeScreen /> : <LoginScreen />}
+        {isLoggedIn ? <AppRouter /> : <LoginScreen />}
       </div>
     </>
   );

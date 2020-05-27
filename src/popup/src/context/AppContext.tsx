@@ -5,7 +5,9 @@ import { PreferencesProvider } from "./PreferencesContext";
 const AppProviders: React.FC = ({ children }) => {
   return (
     <PreferencesProvider>
-      <UserProvider>{children}</UserProvider>
+      <UserProvider>
+        {children}
+      </UserProvider>
     </PreferencesProvider>
   );
 };

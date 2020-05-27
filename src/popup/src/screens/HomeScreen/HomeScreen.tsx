@@ -1,15 +1,11 @@
 import React from "react";
-import { useUser } from "../../context/UserContext";
 import { AppLayout } from "../../components/AppLayout";
-import {Loading} from "../../components/Loading";
+import { AppRouter } from "../../AppRouter";
 
 export const HomeScreen = () => {
-  const { token } = useUser();
-
   return (
-    <AppLayout title="Search">
-      <Loading />
-
+    <AppLayout>
+      <AppRouter />
     </AppLayout>
   );
 };
