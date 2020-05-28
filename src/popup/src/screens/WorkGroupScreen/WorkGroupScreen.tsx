@@ -24,7 +24,7 @@ export const WorkGroupScreen: React.FC = () => {
     setUserQuery,
     userQuery,
   } = useEvents(token, workGroupId);
-  const { workGroup, isWorkGroupLoading } = useWorkGroup(token, workGroupId);
+  const { workGroup } = useWorkGroup(token, workGroupId);
 
   let content;
 

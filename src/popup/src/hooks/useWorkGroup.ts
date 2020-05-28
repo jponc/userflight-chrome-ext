@@ -18,7 +18,7 @@ export const useWorkGroup = (token: string, workGroupId: string) => {
         setIsWorkGroupLoading(false);
       }
     })();
-  }, []);
+  }, [token, workGroupId]);
 
   return {
     isWorkGroupLoading,
