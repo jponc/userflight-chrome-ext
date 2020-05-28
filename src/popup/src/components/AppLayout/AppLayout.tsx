@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "100vh",
       overflow: "auto",
     },
-    appBarSpacer: theme.mixins.toolbar,
+    // appBarSpacer: theme.mixins.toolbar,
     container: {
       paddingTop: theme.spacing(4),
       paddingBottom: theme.spacing(4),
@@ -107,6 +107,11 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
   const logoutHandler = () => {
     logout();
   };
+
+  const workGroupsHandler = () => {
+    setIsDrawerOpen(false)
+    history.push("/")
+  }
 
   return (
     <div className={classes.root}>
@@ -155,7 +160,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
       >
         <Divider />
         <List>
-          <ListItem button onClick={() => history.push("/work-groups")}>
+          <ListItem button onClick={workGroupsHandler}>
             <ListItemIcon>
               <StorefrontIcon />
             </ListItemIcon>

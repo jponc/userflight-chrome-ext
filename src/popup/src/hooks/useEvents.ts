@@ -5,7 +5,7 @@ import { fetchAutocompletePriorityEvents, fetchEventsForCustomer } from "../acti
 export const useEvents = (token: string, workGroupId: string) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [query, setQuery] = useState<string>("");
-  const [events, setEvents] = useState<Event[]>([]);
+  const [userEvents, setUserEvents] = useState<Event[]>([]);
   const [priorityEvents, setPriorityEvents] = useState<Event[]>([]);
   const [userQuery, setUserQuery] = useState<UserQuery | undefined>(undefined);
 
@@ -15,6 +15,8 @@ export const useEvents = (token: string, workGroupId: string) => {
       setPriorityEvents([])
       return;
     }
+
+    setUserQuery(undefined);
 
     let cancelled = false;
     (async () => {
@@ -34,7 +36,7 @@ export const useEvents = (token: string, workGroupId: string) => {
 
   useEffect(() => {
     if (!userQuery) {
-      setEvents([]);
+      setUserEvents([]);
       return;
     }
 
@@ -45,7 +47,7 @@ export const useEvents = (token: string, workGroupId: string) => {
       const fetchedPriorityEvents = await fetchEventsForCustomer(token, workGroupId, userQuery);
 
       if (!cancelled) {
-        setEvents(fetchedPriorityEvents);
+        setUserEvents(fetchedPriorityEvents);
         setIsLoading(false);
       }
     })();
@@ -56,11 +58,11 @@ export const useEvents = (token: string, workGroupId: string) => {
   }, [token, workGroupId, userQuery]);
 
   return {
-    query,
-    events,
     isLoading,
-    setQuery,
+    userEvents,
     priorityEvents,
-    setUserQuery
+    setQuery,
+    setUserQuery,
+    userQuery
   };
 };

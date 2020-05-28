@@ -10,7 +10,8 @@ import {
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
-    marginBottom: 10
+    marginBottom: 10,
+    cursor: "pointer"
   },
   bullet: {
     display: "inline-block",
@@ -39,7 +40,7 @@ export const WorkGroupCards: React.FC<WorkGroupCardsProps> = ({
   return (
     <>
       {workGroups.map((workGroup) => (
-        <Card key={workGroup.id} className={classes.root} onClick={() => onClick(workGroup)}>
+        <Card raised={true} key={workGroup.id} className={classes.root} onClick={() => onClick(workGroup)}>
           <CardContent>
             <Typography
               className={classes.title}

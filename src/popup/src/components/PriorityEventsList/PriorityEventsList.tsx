@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export const PriorityEventItem: React.FC<PriorityEventItemProps> = ({
+const PriorityEventItem: React.FC<PriorityEventItemProps> = ({
   priorityEvent,
   onClick,
 }) => {
