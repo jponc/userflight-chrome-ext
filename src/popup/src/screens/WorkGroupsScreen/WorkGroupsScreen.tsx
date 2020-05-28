@@ -3,18 +3,28 @@ import { AppLayout } from "../../components/AppLayout";
 import { Loading } from "../../components/Loading";
 import { useUser } from "../../context/UserContext";
 import { useWorkGroups } from "../../hooks/useWorkGroups";
-import { Typography } from "@material-ui/core";
+import { WorkGroupCards } from "../../components/WorkGroupCards";
+import { WorkGroup } from "../../common/types";
+import { useHistory } from "react-router";
 
 export const WorkGroupsScreen: React.FC = () => {
   const { token } = useUser();
   const { workGroups, isLoading } = useWorkGroups(token);
+  const history = useHistory();
+
+  const workGroupOnClickHandler = (workGroup: WorkGroup) => {
+    history.push(`/work-groups/${workGroup.id}`);
+  };
 
   return (
-    <AppLayout title="Work Groups">
+    <AppLayout>
       {isLoading ? (
         <Loading />
       ) : (
-        <Typography variant="h1">{workGroups.length}</Typography>
+        <WorkGroupCards
+          workGroups={workGroups}
+          onClick={workGroupOnClickHandler}
+        />
       )}
     </AppLayout>
   );

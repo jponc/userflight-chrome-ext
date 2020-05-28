@@ -12,9 +12,16 @@ export type Event = {
   fullName?: string;
 };
 
- export type WorkGroup = {
+export type WorkGroup = {
   apiKey: string;
   id: string;
   createdAt: string;
   name: string;
 };
+
+export type UserQuery = {
+  ip?: string;
+  fullName?: string;
+  email?: string;
+  phone?: string;
+}

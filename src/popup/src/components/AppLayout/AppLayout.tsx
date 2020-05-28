@@ -1,13 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import InputBase from "@material-ui/core/InputBase";
 import Container from "@material-ui/core/Container";
 import { usePreferences } from "../../context/PreferencesContext";
 import { useUser } from "../../context/UserContext";
-
+import { useHistory } from "react-router";
 import {
   createStyles,
   fade,
@@ -15,7 +13,6 @@ import {
   makeStyles,
 } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
-import SearchIcon from "@material-ui/icons/Search";
 import {
   Drawer,
   Divider,
@@ -23,8 +20,11 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  InputBase,
 } from "@material-ui/core";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import StorefrontIcon from "@material-ui/icons/Storefront";
+import SearchIcon from "@material-ui/icons/Search";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,13 +33,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     menuButton: {
       marginRight: theme.spacing(2),
-    },
-    title: {
-      flexGrow: 1,
-      display: "none",
-      [theme.breakpoints.up("sm")]: {
-        display: "block",
-      },
     },
     search: {
       position: "relative",
@@ -94,13 +87,18 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type AppLayoutProps = {
-  title: string
-}
+  workGroupId?: string;
+  onSearchChange?: (query: string) => void;
+};
 
-export const AppLayout: React.FC<AppLayoutProps> = ({ children, title }) => {
+export const AppLayout: React.FC<AppLayoutProps> = ({
+  children,
+  onSearchChange,
+}) => {
   const classes = useStyles();
   const { isDrawerOpen, setIsDrawerOpen } = usePreferences();
   const { logout } = useUser();
+  const history = useHistory();
 
   const handleDrawerOpen = () => {
     setIsDrawerOpen(true);
@@ -123,10 +121,9 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, title }) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
-            {title}
-          </Typography>
-          <div className={classes.search}>
+
+          {onSearchChange && (
+            <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
@@ -137,8 +134,10 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, title }) => {
                 input: classes.inputInput,
               }}
               inputProps={{ "aria-label": "search" }}
+              onChange={(e) => onSearchChange(e.target.value)}
             />
           </div>
+          )}
         </Toolbar>
       </AppBar>
 
@@ -156,6 +155,12 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, title }) => {
       >
         <Divider />
         <List>
+          <ListItem button onClick={() => history.push("/work-groups")}>
+            <ListItemIcon>
+              <StorefrontIcon />
+            </ListItemIcon>
+            <ListItemText primary="Work Groups" />
+          </ListItem>
           <ListItem button onClick={logoutHandler}>
             <ListItemIcon>
               <ExitToAppIcon />
