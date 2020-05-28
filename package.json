@@ -24,10 +24,12 @@
     "webpack-cli": "^3.3.11"
   },
   "scripts": {
+    "prebuild:staging": "npm run clean",
     "build:staging": "npm-run-all build:staging:*",
     "build:staging:contentscript-background": "NODE_ENV=production webpack --config webpack.config.js",
     "build:staging:popup": "npm run build:staging --prefix src/popup && cd src/popup/build && cpy * /static/* ../../../dist/popup --parents",
 
+    "prebuild:production": "npm run clean",
     "build:production": "npm-run-all build:production:*",
     "build:production:contentscript-background": "NODE_ENV=production webpack --config webpack.config.js",
     "build:production:popup": "npm run build:production --prefix src/popup && cd src/popup/build && cpy * /static/* ../../../dist/popup --parents",

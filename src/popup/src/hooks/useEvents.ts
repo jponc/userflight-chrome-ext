@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { Event, UserQuery } from "../common/types";
-import { fetchAutocompletePriorityEvents, fetchEventsForCustomer } from "../actions/events";
+import {
+  fetchAutocompletePriorityEvents,
+  fetchEventsForCustomer,
+} from "../actions/events";
 import { useDebounce } from "./useDebounce";
 import { uniqWith } from "lodash";
 
@@ -16,7 +19,7 @@ export const useEvents = (token: string, workGroupId: string) => {
   useEffect(() => {
     if (debouncedQuery.length === 0) {
       setIsLoading(false);
-      setPriorityEvents([])
+      setPriorityEvents([]);
       return;
     }
 
@@ -25,17 +28,29 @@ export const useEvents = (token: string, workGroupId: string) => {
     let cancelled = false;
     (async () => {
       setIsLoading(true);
-      const fetchedPriorityEvents = await fetchAutocompletePriorityEvents(token, workGroupId, debouncedQuery);
+      const fetchedPriorityEvents = await fetchAutocompletePriorityEvents(
+        token,
+        workGroupId,
+        debouncedQuery
+      );
 
       if (!cancelled) {
-        setPriorityEvents(fetchedPriorityEvents);
+        const uniqueEvents = uniqWith(
+          fetchedPriorityEvents,
+          (val, other) =>
+            val.fullName === other.fullName &&
+            val.ip === other.ip &&
+            val.email === other.email &&
+            val.phone === other.phone
+        );
+        setPriorityEvents(uniqueEvents);
         setIsLoading(false);
       }
     })();
 
     return () => {
-      cancelled = true
-    }
+      cancelled = true;
+    };
   }, [token, workGroupId, debouncedQuery]);
 
   useEffect(() => {
@@ -48,23 +63,21 @@ export const useEvents = (token: string, workGroupId: string) => {
     (async () => {
       setIsLoading(true);
 
-      const fetchedPriorityEvents = await fetchEventsForCustomer(token, workGroupId, userQuery);
+      const fetchedUserEvents = await fetchEventsForCustomer(
+        token,
+        workGroupId,
+        userQuery
+      );
 
       if (!cancelled) {
-        const uniqueEvents = uniqWith(fetchedPriorityEvents, (val, other) => (
-          val.fullName === other.fullName &&
-            val.ip === other.ip &&
-            val.email === other.email &&
-            val.phone === other.phone
-        ))
-        setUserEvents(uniqueEvents);
+        setUserEvents(fetchedUserEvents);
         setIsLoading(false);
       }
     })();
 
     return () => {
-      cancelled = true
-    }
+      cancelled = true;
+    };
   }, [token, workGroupId, userQuery]);
 
   return {
@@ -73,6 +86,6 @@ export const useEvents = (token: string, workGroupId: string) => {
     priorityEvents,
     setQuery,
     setUserQuery,
-    userQuery
+    userQuery,
   };
 };
