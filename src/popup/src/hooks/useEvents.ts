@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Event, UserQuery } from "../common/types";
 import { fetchAutocompletePriorityEvents, fetchEventsForCustomer } from "../actions/events";
 import { useDebounce } from "./useDebounce";
+import { uniqWith } from "lodash";
 
 export const useEvents = (token: string, workGroupId: string) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -50,7 +51,13 @@ export const useEvents = (token: string, workGroupId: string) => {
       const fetchedPriorityEvents = await fetchEventsForCustomer(token, workGroupId, userQuery);
 
       if (!cancelled) {
-        setUserEvents(fetchedPriorityEvents);
+        const uniqueEvents = uniqWith(fetchedPriorityEvents, (val, other) => (
+          val.fullName === other.fullName &&
+            val.ip === other.ip &&
+            val.email === other.email &&
+            val.phone === other.phone
+        ))
+        setUserEvents(uniqueEvents);
         setIsLoading(false);
       }
     })();
