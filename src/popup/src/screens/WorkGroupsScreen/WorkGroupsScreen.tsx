@@ -12,6 +12,10 @@ export const WorkGroupsScreen: React.FC = () => {
   const { workGroups, isLoading } = useWorkGroups(token);
   const history = useHistory();
 
+  if (workGroups.length === 1) {
+    history.push(`/work-groups/${workGroups[0].id}`);
+  }
+
   const workGroupOnClickHandler = (workGroup: WorkGroup) => {
     history.push(`/work-groups/${workGroup.id}`);
   };

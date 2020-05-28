@@ -21,6 +21,7 @@ import {
   ListItemIcon,
   ListItemText,
   InputBase,
+  Typography,
 } from "@material-ui/core";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import StorefrontIcon from "@material-ui/icons/Storefront";
@@ -82,23 +83,29 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingTop: theme.spacing(4),
       paddingBottom: theme.spacing(4),
     },
+    headingText: {
+      display: "flex",
+      justifyContent: "space-between",
+      width: "100%"
+    }
   })
 );
 
 type AppLayoutProps = {
   workGroupId?: string;
   onSearchChange?: (query: string) => void;
+  title?: string;
 };
 
 export const AppLayout: React.FC<AppLayoutProps> = ({
   children,
   onSearchChange,
+  title,
 }) => {
   const classes = useStyles();
   const { isDrawerOpen, setIsDrawerOpen } = usePreferences();
   const { logout } = useUser();
   const history = useHistory();
-
   const handleDrawerOpen = () => {
     setIsDrawerOpen(true);
   };
@@ -108,9 +115,9 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
   };
 
   const workGroupsHandler = () => {
-    setIsDrawerOpen(false)
-    history.push("/")
-  }
+    setIsDrawerOpen(false);
+    history.push("/");
+  };
 
   return (
     <div className={classes.root}>
@@ -126,22 +133,28 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
             <MenuIcon />
           </IconButton>
 
-          {onSearchChange && (
-            <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-              onChange={(e) => onSearchChange(e.target.value)}
-            />
+          <div className={classes.headingText}>
+            <Typography component="h1" variant="h6" color="inherit" noWrap>
+              {title}
+            </Typography>
+
+            {onSearchChange && (
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  placeholder="Search…"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  inputProps={{ "aria-label": "search" }}
+                  onChange={(e) => onSearchChange(e.target.value)}
+                />
+              </div>
+            )}
           </div>
-          )}
         </Toolbar>
       </AppBar>
 

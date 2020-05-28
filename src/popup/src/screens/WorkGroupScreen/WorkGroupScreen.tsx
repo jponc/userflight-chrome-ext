@@ -7,6 +7,7 @@ import { useUser } from "../../context/UserContext";
 import { useEvents } from "../../hooks/useEvents";
 import { useParams } from "react-router";
 import { UserQueryInfo } from "../../components/UserQueryInfo";
+import { useWorkGroup } from "../../hooks/useWorkGroup";
 
 export type WorkGroupScreenRouteParams = {
   workGroupId: string;
@@ -23,6 +24,7 @@ export const WorkGroupScreen: React.FC = () => {
     setUserQuery,
     userQuery,
   } = useEvents(token, workGroupId);
+  const { workGroup, isWorkGroupLoading } = useWorkGroup(token, workGroupId);
 
   let content;
 
@@ -44,8 +46,5 @@ export const WorkGroupScreen: React.FC = () => {
     );
   }
 
-  if (userQuery) {
-  }
-
-  return <AppLayout onSearchChange={setQuery}>{content}</AppLayout>;
+  return <AppLayout title={workGroup?.name} onSearchChange={setQuery}>{content}</AppLayout>;
 };
