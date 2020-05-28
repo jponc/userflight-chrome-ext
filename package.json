@@ -24,10 +24,14 @@
     "webpack-cli": "^3.3.11"
   },
   "scripts": {
-    "build:contentscript-background": "NODE_ENV=production webpack --config webpack.config.js",
-    "build:popup": "npm run build --prefix src/popup && cd src/popup/build && cpy * /static/* ../../../dist/popup --parents",
-    "build-production:popup": "npm run build:production --prefix src/popup && cd src/popup/build && cpy * /static/* ../../../dist/popup --parents",
-    "build": "npm-run-all build:*",
+    "build:staging": "npm-run-all build:staging:*",
+    "build:staging:contentscript-background": "NODE_ENV=production webpack --config webpack.config.js",
+    "build:staging:popup": "npm run build:staging --prefix src/popup && cd src/popup/build && cpy * /static/* ../../../dist/popup --parents",
+
+    "build:production": "npm-run-all build:production:*",
+    "build:production:contentscript-background": "NODE_ENV=production webpack --config webpack.config.js",
+    "build:production:popup": "npm run build:production --prefix src/popup && cd src/popup/build && cpy * /static/* ../../../dist/popup --parents",
+
     "watch:contentscript-background": "NODE_ENV=development webpack --config webpack.config.js -w",
     "watch:popup": "npm run watch:build --prefix src/popup",
     "watch": "npm-run-all --parallel watch:*",

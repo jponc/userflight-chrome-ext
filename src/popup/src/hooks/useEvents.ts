@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Event, UserQuery } from "../common/types";
 import { fetchAutocompletePriorityEvents, fetchEventsForCustomer } from "../actions/events";
+import { useDebounce } from "./useDebounce";
 
 export const useEvents = (token: string, workGroupId: string) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -9,8 +10,10 @@ export const useEvents = (token: string, workGroupId: string) => {
   const [priorityEvents, setPriorityEvents] = useState<Event[]>([]);
   const [userQuery, setUserQuery] = useState<UserQuery | undefined>(undefined);
 
+  const debouncedQuery = useDebounce(query, 500);
+
   useEffect(() => {
-    if (query.length === 0) {
+    if (debouncedQuery.length === 0) {
       setIsLoading(false);
       setPriorityEvents([])
       return;
@@ -21,7 +24,7 @@ export const useEvents = (token: string, workGroupId: string) => {
     let cancelled = false;
     (async () => {
       setIsLoading(true);
-      const fetchedPriorityEvents = await fetchAutocompletePriorityEvents(token, workGroupId, query);
+      const fetchedPriorityEvents = await fetchAutocompletePriorityEvents(token, workGroupId, debouncedQuery);
 
       if (!cancelled) {
         setPriorityEvents(fetchedPriorityEvents);
@@ -32,7 +35,7 @@ export const useEvents = (token: string, workGroupId: string) => {
     return () => {
       cancelled = true
     }
-  }, [token, workGroupId, query]);
+  }, [token, workGroupId, debouncedQuery]);
 
   useEffect(() => {
     if (!userQuery) {

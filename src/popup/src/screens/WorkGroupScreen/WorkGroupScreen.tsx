@@ -6,6 +6,7 @@ import { UserEventCards } from "../../components/UserEventCards";
 import { useUser } from "../../context/UserContext";
 import { useEvents } from "../../hooks/useEvents";
 import { useParams } from "react-router";
+import { UserQueryInfo } from "../../components/UserQueryInfo";
 
 export type WorkGroupScreenRouteParams = {
   workGroupId: string;
@@ -36,9 +37,10 @@ export const WorkGroupScreen: React.FC = () => {
     );
   } else {
     content = (
-      <UserEventCards
-        userEvents={userEvents}
-      />
+      <>
+        <UserQueryInfo userQuery={userQuery} />
+        <UserEventCards userEvents={userEvents} />
+      </>
     );
   }
 

@@ -14,7 +14,12 @@ type PriorityEventsListProps = {
 
 const useStyles = makeStyles(() => ({
   chip: {
-    marginRight: 10
+    marginRight: 10,
+    marginBottom: 10
+  },
+  line: {
+    display: "flex",
+    flexWrap: "wrap"
   }
 }));
 
@@ -31,7 +36,7 @@ const PriorityEventItem: React.FC<PriorityEventItemProps> = ({
   };
 
   return (
-    <ListItem divider button onClick={() => onClick(userQuery)}>
+    <ListItem className={classes.line} divider button onClick={() => onClick(userQuery)}>
       {userQuery.email && <Chip className={classes.chip} label={userQuery.email} />}
       {userQuery.fullName && <Chip className={classes.chip} label={userQuery.fullName} />}
       {userQuery.phone && <Chip className={classes.chip} label={userQuery.phone} />}
