@@ -78,7 +78,6 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "100vh",
       overflow: "auto",
     },
-    // appBarSpacer: theme.mixins.toolbar,
     container: {
       paddingTop: theme.spacing(4),
       paddingBottom: theme.spacing(4),
@@ -147,7 +146,6 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
       </AppBar>
 
       <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           {children}
         </Container>
