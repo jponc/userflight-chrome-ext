@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: theme.typography.pxToRem(15),
       fontWeight: theme.typography.fontWeightRegular,
     },
+    messageText: {
+      whiteSpace: "pre-wrap"
+    }
   })
 );
 
@@ -49,7 +52,7 @@ const UserEventCard: React.FC<UserEventCardProps> = ({ userEvent }) => {
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
         <Typography>
-          {userEvent.message}
+          <div className={classes.messageText} dangerouslySetInnerHTML={{ __html: userEvent.message }} />
         </Typography>
       </ExpansionPanelDetails>
     </ExpansionPanel>
