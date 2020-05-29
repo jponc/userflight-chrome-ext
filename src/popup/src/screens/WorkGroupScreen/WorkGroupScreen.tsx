@@ -20,9 +20,10 @@ export const WorkGroupScreen: React.FC = () => {
     userEvents,
     priorityEvents,
     isLoading,
-    setQuery,
+    onSearchChange,
     setUserQuery,
     userQuery,
+    query
   } = useEvents(token, workGroupId);
   const { workGroup } = useWorkGroup(token, workGroupId);
 
@@ -46,5 +47,5 @@ export const WorkGroupScreen: React.FC = () => {
     );
   }
 
-  return <AppLayout title={workGroup?.name} onSearchChange={setQuery}>{content}</AppLayout>;
+  return <AppLayout title={workGroup?.name} searchQuery={query} onSearchChange={onSearchChange}>{content}</AppLayout>;
 };

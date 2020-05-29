@@ -33,3 +33,11 @@ export const fetchWorkGroup = async (token: string, workGroupId: string): Promis
   const json = await res.json();
   return json.body;
 };
+
+export const storeWorkGroupIdToStorage = (workGroupId: string) => {
+  localStorage.setItem("workGroupId", workGroupId)
+}
+
+export const getWorkGroupIdFromStorage = (): string | null => {
+  return localStorage.getItem("workGroupId")
+}

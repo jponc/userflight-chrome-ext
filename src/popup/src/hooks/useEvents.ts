@@ -3,16 +3,21 @@ import { Event, UserQuery } from "../common/types";
 import {
   fetchAutocompletePriorityEvents,
   fetchEventsForCustomer,
+  getQueryFormStorage,
+  getUserQueryFromStorage,
+  storeQueryToStorage,
+  storeUserQueryToStorage,
+  removeUserQueryFromStorage
 } from "../actions/events";
 import { useDebounce } from "./useDebounce";
 import { uniqWith } from "lodash";
 
 export const useEvents = (token: string, workGroupId: string) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [query, setQuery] = useState<string>("");
+  const [query, setQuery] = useState<string>(getQueryFormStorage() || "");
   const [userEvents, setUserEvents] = useState<Event[]>([]);
   const [priorityEvents, setPriorityEvents] = useState<Event[]>([]);
-  const [userQuery, setUserQuery] = useState<UserQuery | undefined>(undefined);
+  const [userQuery, setUserQuery] = useState<UserQuery | null>(getUserQueryFromStorage());
 
   const debouncedQuery = useDebounce(query, 500);
 
@@ -22,8 +27,6 @@ export const useEvents = (token: string, workGroupId: string) => {
       setPriorityEvents([]);
       return;
     }
-
-    setUserQuery(undefined);
 
     let cancelled = false;
     (async () => {
@@ -80,11 +83,31 @@ export const useEvents = (token: string, workGroupId: string) => {
     };
   }, [token, workGroupId, userQuery]);
 
+
+  useEffect(() => {
+    storeQueryToStorage(debouncedQuery);
+  }, [debouncedQuery]);
+
+  useEffect(() => {
+    if (userQuery) {
+      storeUserQueryToStorage(userQuery);
+    } else {
+      removeUserQueryFromStorage();
+    }
+  }, [userQuery]);
+
+  const onSearchChange = (value: string) => {
+    setIsLoading(true);
+    setUserQuery(null);
+    setQuery(value);
+  }
+
   return {
     isLoading,
+    query,
     userEvents,
     priorityEvents,
-    setQuery,
+    onSearchChange,
     setUserQuery,
     userQuery,
   };

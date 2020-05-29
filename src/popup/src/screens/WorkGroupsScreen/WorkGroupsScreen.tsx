@@ -9,15 +9,15 @@ import { useHistory } from "react-router";
 
 export const WorkGroupsScreen: React.FC = () => {
   const { token } = useUser();
-  const { workGroups, isLoading } = useWorkGroups(token);
+  const { workGroups, isLoading, selectedWorkGroupId, setSelectedWorkGroupId } = useWorkGroups(token);
   const history = useHistory();
 
-  if (workGroups.length === 1) {
-    history.push(`/work-groups/${workGroups[0].id}`);
+  if (selectedWorkGroupId) {
+    history.push(`/work-groups/${selectedWorkGroupId}`);
   }
 
   const workGroupOnClickHandler = (workGroup: WorkGroup) => {
-    history.push(`/work-groups/${workGroup.id}`);
+    setSelectedWorkGroupId(workGroup.id);
   };
 
   return (

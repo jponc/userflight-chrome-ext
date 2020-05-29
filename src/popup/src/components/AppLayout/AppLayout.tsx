@@ -95,12 +95,14 @@ type AppLayoutProps = {
   workGroupId?: string;
   onSearchChange?: (query: string) => void;
   title?: string;
+  searchQuery?: string;
 };
 
 export const AppLayout: React.FC<AppLayoutProps> = ({
   children,
   onSearchChange,
   title,
+  searchQuery
 }) => {
   const classes = useStyles();
   const { isDrawerOpen, setIsDrawerOpen } = usePreferences();
@@ -145,6 +147,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
                 </div>
                 <InputBase
                   placeholder="Search…"
+                  value={searchQuery}
                   classes={{
                     root: classes.inputRoot,
                     input: classes.inputInput,
