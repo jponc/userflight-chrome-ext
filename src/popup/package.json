@@ -16,7 +16,7 @@
     "@types/react-dom": "^16.9.0",
     "dayjs": "^1.8.28",
     "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router": "^5.2.0",
